@@ -1,0 +1,19 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /app
+db:
+  url: jdbc:h2:mem:test
+  username: root
+  password: pass1
+
+hibernate:
+  driver:
+    class:
+      name: org.h2.Driver
+  sql:
+    dialect: org.hibernate.dialect.H2Dialect
+
+spring:
+  jpa:
+    show-sql: true
