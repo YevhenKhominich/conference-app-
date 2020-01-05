@@ -77,6 +77,7 @@ public class MembersController {
     @PostMapping("/conference/{id}")
     public ResponseEntity<Void> addMemberToConference(@PathVariable Long id, @RequestBody Member member) {
 
+        MemberValidator.validate(member);
         try {
             memberService.addMemberToConference(member, id);
         } catch (RuntimeException e) {

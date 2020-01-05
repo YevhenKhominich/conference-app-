@@ -1,12 +1,10 @@
 package com.example.web.dto;
 
-import com.example.data.entity.Conference;
 import com.example.data.entity.Member;
 import lombok.Builder;
 import lombok.Data;
 
 import java.util.Optional;
-import java.util.function.Consumer;
 
 @Data
 @Builder
@@ -18,15 +16,23 @@ public class MemberDto {
 
     private int age;
 
-    private Optional<Conference> conference;
+    private String conferenceName;
 
     public static MemberDto from(Member member) {
+
+
+        String conferenceName;
+
+        if (member.getConference() != null) {
+            conferenceName = member.getConference().getName();
+        } else conferenceName = "No conference";
+
 
         return MemberDto.builder()
                 .firstName(member.getFirstName())
                 .lastName(member.getLastName())
                 .age(member.getAge())
-                .conference(Optional.ofNullable(member.getConference()))
+                .conferenceName(conferenceName)
                 .build();
 
     }

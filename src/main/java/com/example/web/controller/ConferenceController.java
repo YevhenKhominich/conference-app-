@@ -6,6 +6,10 @@ import com.example.exception.DBException;
 import com.example.service.ConferenceService;
 import com.example.web.dto.ConferenceDto;
 import com.example.web.validation.ConferenceValidator;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//@Api(value = "Conference Controller")
 @Slf4j
 @RestController
 @RequestMapping(value = "/conferences")
@@ -38,11 +43,16 @@ public class ConferenceController {
         return new ResponseEntity<>(conferencesDto, HttpStatus.OK);
     }
 
+//    @ApiOperation(value = "Create new Conference")
+//    @ApiResponses({
+//            @ApiResponse(code = 201,message = "Successfull created")
+//
+//    })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity create(@RequestBody Conference conference) {
 
-        log.info("Date : " + conference.getDate());
-        //ConferenceValidator.validate(conference);
+        //date validation regex
+        ConferenceValidator.validate(conference);
 
         try {
             conferenceService.save(conference);

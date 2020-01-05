@@ -4,7 +4,7 @@ import com.example.data.dao.ConferenceDao;
 import com.example.data.dao.MemberDao;
 import com.example.data.dao.RoomDao;
 import com.example.data.entity.Conference;
-import com.example.data.entity.Room;
+import com.example.data.entity.Member;
 import com.example.service.ConferenceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 
 @Slf4j
@@ -51,10 +51,14 @@ public class ConferenceServiceImpl implements ConferenceService {
     public void cancel(long id) {
 
         Conference conference = conferenceDao.get(id);
-        Room room = conference.getRoom();
 
-        if (room != null) {
-            room.setOccupied(false);
+        Set<Member> members = conference.getMembers();
+
+
+//        conference.getMembers().forEach(member -> memberDao.delete(member.getId()));
+
+        if (conference.getRoom() != null) {
+            conference.getRoom().setOccupied(false);
         }
 
         conferenceDao.delete(id);
@@ -78,17 +82,18 @@ public class ConferenceServiceImpl implements ConferenceService {
 
     @Override
     public List getAllMembersForConference(long id) {
+//change
 
-        return memberDao.getAll()
-                .stream()
-                .filter(member -> member.getConference().getId() == id)
-                .collect(Collectors.toList());
+        return List.of(conferenceDao.get(id).getMembers());
+//        return memberDao.getAll()
+//                .stream()
+//                .filter(member -> member.getConference().getId() == id)
+//                .collect(Collectors.toList());
     }
 
     @Override
     public Conference update(Conference conference) {
         return conferenceDao.update(conference);
     }
-
 
 }

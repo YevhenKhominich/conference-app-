@@ -63,7 +63,6 @@ public class RoomController {
         } catch (RuntimeException e) {
             throw new DBException("Database exception");
         }
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

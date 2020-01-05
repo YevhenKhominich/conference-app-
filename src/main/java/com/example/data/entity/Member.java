@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "MEMBER")
+@Table(name = "members")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,8 +32,8 @@ public class Member {
     @Column
     private int age;
 
-    @JsonIgnore// replace with MemberDTO or no
-    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CONFERENCE_ID")
     Conference conference;
 
